@@ -1,0 +1,55 @@
+﻿@using ProjectStaffManager.Models.ViewModels
+@model IEnumerable<ProjectStaffMemberViewModel>
+@{
+    ViewData["Title"] = "Projects Staf members List Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome to Projects Staf members List Page</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+
+<h1>Buffered File Upload</h1>
+<hr />
+<form method="post" enctype="multipart/form-data">
+    <input type="file" name="file" />
+    <button type="submit">Upload File</button>
+</form>
+
+@if (ViewBag.Message != null)
+{
+    <div class="alert" style="margin-top:20px">
+        @ViewBag.Message
+    </div>
+}
+
+<table class="table table-bordered table-striped" style="width:100%">
+    <thead>
+        <tr>
+            <th>Project</th>
+            <th>StaffMember1</th>
+            <th>StaffMember2</th>
+            <th>Days</th>
+        </tr>
+    </thead>
+    @if(Model != null){
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td width="50%">
+                        @item.Project.ProjectId
+                    </td>
+                    <td width="30%">
+                        @item.FirstStaffMember.StaffMemberId
+                    </td>
+                    <td width="30%">
+                        @item.SecondStaffMember.StaffMemberId
+                    </td>
+                    <td width="30%">
+                    </td>
+                </tr>
+            }
+        </tbody>
+    }
+</table>
