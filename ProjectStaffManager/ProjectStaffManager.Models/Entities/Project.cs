@@ -1,6 +1,10 @@
-﻿namespace ProjectStaffManager.Models.Entities
+﻿using Microsoft.EntityFrameworkCore;
+using System.Net.Mail;
+
+namespace ProjectStaffManager.Models.Entities
 {
-    public class Project 
+    [Index(nameof(ProjectId), IsUnique = true)]
+    public class Project :Entity
     {
         public int ProjectId { get; set; }
         public IList<ProjectStaffMember> ProjectStaffMembers { get; set; }

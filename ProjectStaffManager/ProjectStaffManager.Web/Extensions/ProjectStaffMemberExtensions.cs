@@ -10,15 +10,20 @@ namespace ProjectStaffManager.Web.Extensions
 
             try
             {
-                return new ProjectStaffMember
+                var psm = new ProjectStaffMember
                 {
-                    //StaffMemberId = int.Parse(parseData[0]),
-                    //ProjectId = int.Parse(parseData[1]),
-                    Project = new Project() { ProjectId = int.Parse(parseData[1]) },
-                    StaffMember = new StaffMember() { StaffMemberId = int.Parse(parseData[0]) },
+                    ProjectID = int.Parse(parseData[1]),
+                    StaffMemberID = int.Parse(parseData[0]),
+                    //Project = new Project() { ProjectId = int.Parse(parseData[1]) },
+                    //StaffMember = new StaffMember() { StaffMemberId = int.Parse(parseData[0]) },
                     DateFrom = DateTime.Parse(parseData[2]),
                     DateTo = parseData[3] != "NULL" ? DateTime.Parse(parseData[3]) : (DateTime?)null
                 };
+
+                DateTime? end = psm.DateTo == null ? DateTime.Today : psm.DateTo;
+
+                psm.DaysWorked = (int?)(end - psm.DateFrom).Value.TotalDays;
+                return psm;
 
             }
             catch (Exception)

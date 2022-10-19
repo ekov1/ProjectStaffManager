@@ -16,7 +16,8 @@ namespace ProjectStaffManager.Web.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            var model = ProjectStaffMemberService.GetAll();
+            return View(model);
         }
 
         [HttpPost]
@@ -45,7 +46,7 @@ namespace ProjectStaffManager.Web.Controllers
                     }
                 }
 
-                if (ProjectStaffMemberService.Create(projectStafMembers))
+                if (ProjectStaffMemberService.Create(projectStafMembers).Result)
                 {
                     ViewBag.Message = "File Upload Successful";
                 }
@@ -59,7 +60,7 @@ namespace ProjectStaffManager.Web.Controllers
                 //Log ex
                 ViewBag.Message = "File Upload Failed";
             }
-            return View();
+            return RedirectToAction("Index");
         }
     }
 }

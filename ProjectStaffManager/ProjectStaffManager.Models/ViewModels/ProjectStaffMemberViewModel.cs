@@ -9,6 +9,6 @@ namespace ProjectStaffManager.Models.ViewModels
         public StaffMember FirstStaffMember { get; set; }
         public StaffMember SecondStaffMember { get; set; }
         public DateTime DateFrom { get; set; }
-        public DateTime DateTo { get; set; }
+        public DateTime? DateTo { get; set; }
     }
 }
