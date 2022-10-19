@@ -1,9 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using ProjectStaffManager.Data;
 using ProjectStaffManager.Models.Entities;
 using ProjectStaffManager.Models.ViewModels;
 using ProjectStaffManager.Services.Interfaces;
+using System.Collections.Generic;
+using System.Reflection.Metadata;
 using System.Security.Cryptography.X509Certificates;
+using static System.Net.WebRequestMethods;
 
 namespace ProjectStaffManager.Services
 {
@@ -20,28 +24,24 @@ namespace ProjectStaffManager.Services
         {
             try
             {
-                List<Project> projects = projectStaffMembers.DistinctBy(x => x.ProjectID).Select(x=>new Project() {ProjectId = x.ProjectID}).ToList();
-                List<StaffMember> staffMembers = projectStaffMembers.DistinctBy(x => x.StaffMemberID).Select(x => new StaffMember() { StaffMemberId = x.StaffMemberID }).ToList();
-                context.Projects.UpdateRange(projects);
-                context.StaffMembers.UpdateRange(staffMembers);
-                context.ProjectStaffMembers.UpdateRange(projectStaffMembers);
+                context.ProjectStaffMembers.AddRange(projectStaffMembers);
                 var result = await context.SaveChangesAsync();
 
-                return result>0;
+                return result > 0;
             }
             catch (Exception ex)
             {
-               return false;
+                return false;
             }
         }
 
         public List<GridViewModel> GetAll()
         {
-          var projectStaffMembers = context.ProjectStaffMembers
-                .Include(x=>x.Project)
-                .Include(x => x.StaffMember)
-                .OrderBy(x => x.ProjectID).ThenBy(x => x.DaysWorked)
-                .ToList();
+            var projectStaffMembers = context.ProjectStaffMembers
+                  .Include(x => x.Project)
+                  .Include(x => x.StaffMember)
+                  .OrderBy(x => x.ProjectId).ThenBy(x => x.DaysWorked)
+                  .ToList();
             var result = FindPairsEmployees(projectStaffMembers);
             return result;
         }
@@ -49,23 +49,23 @@ namespace ProjectStaffManager.Services
         public List<GridViewModel> FindPairsEmployees(List<ProjectStaffMember> data)
         {
             var projects = new List<GridViewModel>();
-           
+
             int curentProjectId;
 
             GridViewModel gridViewModel = new GridViewModel();
 
             for (int i = 0; i < data.Count; i++)
             {
-                if (gridViewModel.ProjectId == null || gridViewModel.ProjectId != data[i].ProjectID)
+                if (gridViewModel.ProjectId == null || gridViewModel.ProjectId != data[i].ProjectId)
                 {
                     gridViewModel.ProjectId = data[i].Project.ProjectId;
                     gridViewModel.FirstStaffmemberId = data[i].StaffMember.StaffMemberId;
 
-                    if (i+1<data.Count)
+                    if (i + 1 < data.Count)
                     {
-                        if (data[i+1].ProjectID == gridViewModel.ProjectId)
+                        if (data[i + 1].ProjectId == gridViewModel.ProjectId)
                         {
-                            gridViewModel.SecondStaffMemberId = data[i].StaffMemberID;
+                            gridViewModel.SecondStaffMemberId = data[i].StaffMemberId;
                         }
                     }
                     projects.Add(gridViewModel);

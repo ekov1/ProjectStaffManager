@@ -1,9 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProjectStaffManager.Models.Entities
 {
-    [Index(nameof(StaffMemberId), IsUnique = true)]
-    public class StaffMember : Entity
+    public class StaffMember 
     {
         public int StaffMemberId { get; set; }
         public IList<ProjectStaffMember> ProjectStaffMembers { get; set; }

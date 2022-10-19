@@ -12,8 +12,8 @@ namespace ProjectStaffManager.Web.Extensions
             {
                 var psm = new ProjectStaffMember
                 {
-                    ProjectID = int.Parse(parseData[1]),
-                    StaffMemberID = int.Parse(parseData[0]),
+                    ProjectId = int.Parse(parseData[1]),
+                    StaffMemberId = int.Parse(parseData[0]),
                     //Project = new Project() { ProjectId = int.Parse(parseData[1]) },
                     //StaffMember = new StaffMember() { StaffMemberId = int.Parse(parseData[0]) },
                     DateFrom = DateTime.Parse(parseData[2]),
