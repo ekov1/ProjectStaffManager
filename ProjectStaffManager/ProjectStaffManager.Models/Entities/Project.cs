@@ -1,13 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Net.Mail;
 
 namespace ProjectStaffManager.Models.Entities
 {
-    public class Project
+    //[Index(nameof(ProjectId), IsUnique = true)]
+    public class Project :Entity
     {
         public int ProjectId { get; set; }
-        public IList<ProjectStaffMember> ProjectStaffMembers { get; set; }
+      //  public IList<ProjectStaffMember> ProjectStaffMembers { get; set; }
     }
 }

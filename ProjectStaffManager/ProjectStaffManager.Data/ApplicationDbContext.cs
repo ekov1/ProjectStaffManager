@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using ProjectStaffManager.Models.Entities;
-using System.Reflection.Metadata;
 
 namespace ProjectStaffManager.Data
 {
@@ -18,12 +17,11 @@ namespace ProjectStaffManager.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
-            modelBuilder.Entity<ProjectStaffMember>()
-               .HasKey(x => new { x.StaffMemberId, x.ProjectId });
+            //modelBuilder.Entity<ProjectStaffMember>()
+            //   .HasKey(x => new { x.StaffMemberID, x.ProjectID });
 
+           
             base.OnModelCreating(modelBuilder);
         }
-
-
     }
 }
