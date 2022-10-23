@@ -66,11 +66,15 @@ namespace ProjectStaffManager.Services
             {
                 var bestTwo = data.Where(x => x.Project.ProjectId == item).Take(2).ToList();
                 gridViewModel.ProjectId = item;
+
                 gridViewModel.FirstStaffmemberId = bestTwo[0].StaffMember.StaffMemberId;
                 gridViewModel.DaysWorkedFirstStaffmember = bestTwo[0].DaysWorked;
 
-                gridViewModel.SecondStaffMemberId = bestTwo[1].StaffMember.StaffMemberId;
-                gridViewModel.DaysWorkedSecondStaffMember = bestTwo[1].DaysWorked;
+                if (bestTwo.Count > 1)
+                {
+                    gridViewModel.SecondStaffMemberId = bestTwo[1].StaffMember.StaffMemberId;
+                    gridViewModel.DaysWorkedSecondStaffMember = bestTwo[1].DaysWorked;
+                }
 
                 list.Add(gridViewModel);
                 gridViewModel = new GridViewModel();
