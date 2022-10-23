@@ -87,7 +87,6 @@ namespace ProjectStaffManager.Web.Controllers
             }
             catch (Exception ex)
             {
-                //Log ex
                 ViewBag.Message = "File Upload Failed";
             }
             return RedirectToAction("Index");

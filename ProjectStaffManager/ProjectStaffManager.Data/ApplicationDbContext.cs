@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 using ProjectStaffManager.Models.Entities;
 
 namespace ProjectStaffManager.Data
@@ -16,7 +15,6 @@ namespace ProjectStaffManager.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
             modelBuilder.Entity<ProjectStaffMember>()
                 .HasKey(psm => new { psm.ProjectId, psm.StaffMemberId });
 
@@ -29,7 +27,6 @@ namespace ProjectStaffManager.Data
                 .HasOne(psm => psm.StaffMember)
                 .WithMany(sm => sm.ProjectStaffMembers)
                 .HasForeignKey(fk => fk.StaffMemberId);
-
 
             base.OnModelCreating(modelBuilder);
         }

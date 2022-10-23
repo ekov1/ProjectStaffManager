@@ -3,7 +3,6 @@ using ProjectStaffManager.Data;
 using ProjectStaffManager.Models.Entities;
 using ProjectStaffManager.Models.ViewModels;
 using ProjectStaffManager.Services.Interfaces;
-using System.Security.Cryptography.X509Certificates;
 
 namespace ProjectStaffManager.Services
 {
@@ -20,20 +19,7 @@ namespace ProjectStaffManager.Services
         {
             try
             {
-                //List<Project> projects = projectStaffMembers
-                //    .DistinctBy(x => x.ProjectID)
-                //    .Select(x => new Project()
-                //    { 
-                //        ProjectId = x.ProjectID,
-                //        //ProjectStaffMembers = projectStaffMembers.Where(x=>x.ProjectID == x.ProjectID).ToList(),
-                //    })
-                //    .ToList();
-                //List<StaffMember> staffMembers = projectStaffMembers.DistinctBy(x => x.StaffMemberID).Select(x => new StaffMember() { StaffMemberId = x.StaffMemberID }).ToList();
-
-                //context.Projects.AddRange(projects);
-                //context.StaffMembers.AddRange(staffMembers);
                 context.ProjectStaffMembers.AddRange(projectStaffMembers);
-
                 var result = await context.SaveChangesAsync();
 
                 return result > 0;
