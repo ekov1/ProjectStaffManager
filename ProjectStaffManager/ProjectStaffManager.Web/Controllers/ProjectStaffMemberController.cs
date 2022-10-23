@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ProjectStaffManager.Models.Entities;
 using ProjectStaffManager.Services.Interfaces;
-using ProjectStaffManager.Web.Extensions;
 
 namespace ProjectStaffManager.Web.Controllers
 {
@@ -26,7 +25,8 @@ namespace ProjectStaffManager.Web.Controllers
             try
             {
                 List<ProjectStaffMember> projectStafMembers = new List<ProjectStaffMember>();
-
+                List<Project> projects = new List<Project>();
+                List<StaffMember> staffMembers = new List<StaffMember>();
                 var filePath = Path.GetTempFileName();
 
                 if (file != null)
@@ -40,8 +40,38 @@ namespace ProjectStaffManager.Web.Controllers
                     {
                         while (!reader.EndOfStream)
                         {
-                            ProjectStaffMember projectStafMember = reader.ReadLine().ToProjectStaffMember();
-                            projectStafMembers.Add(projectStafMember);
+                            string[] lineParts = reader.ReadLine().Split(", ");
+
+                            int staffMemberId = int.Parse(lineParts[0]);
+                            int projectId = int.Parse(lineParts[1]);
+
+                            if (!projects.Any(x => x.ProjectId == projectId))
+                            {
+                                projects.Add(new Project() { ProjectId = projectId });
+                            }
+
+                            if (!staffMembers.Any(x => x.StaffMemberId == staffMemberId))
+                            {
+                                staffMembers.Add(new StaffMember() { StaffMemberId = staffMemberId });
+                            }
+
+
+
+                            ProjectStaffMember projectStaffMember = new ProjectStaffMember()
+                            {
+                                Project = projects.FirstOrDefault(x => x.ProjectId == projectId),
+                                StaffMember = staffMembers.FirstOrDefault(x => x.StaffMemberId == staffMemberId),
+                                StaffMemberId = staffMembers.FirstOrDefault(x => x.StaffMemberId == staffMemberId).StaffMemberId,
+                                ProjectId = projects.FirstOrDefault(x => x.ProjectId == projectId).ProjectId,
+                                DateFrom = DateTime.Parse(lineParts[2]),
+                                DateTo = lineParts[3] != "NULL" ? DateTime.Parse(lineParts[3]) : (DateTime?)null
+                            };
+
+                            DateTime? end = projectStaffMember.DateTo == null ? DateTime.Today : projectStaffMember.DateTo;
+
+                            projectStaffMember.DaysWorked = (int?)(end - projectStaffMember.DateFrom).Value.TotalDays;
+
+                            projectStafMembers.Add(projectStaffMember);
                         }
                     }
                 }

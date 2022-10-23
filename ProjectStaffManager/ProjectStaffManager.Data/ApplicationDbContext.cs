@@ -17,10 +17,20 @@ namespace ProjectStaffManager.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
-            //modelBuilder.Entity<ProjectStaffMember>()
-            //   .HasKey(x => new { x.StaffMemberID, x.ProjectID });
+            modelBuilder.Entity<ProjectStaffMember>()
+                .HasKey(psm => new { psm.ProjectId, psm.StaffMemberId });
 
-           
+            modelBuilder.Entity<ProjectStaffMember>()
+                .HasOne(psm => psm.Project)
+                .WithMany(p => p.ProjectStaffMembers)
+                .HasForeignKey(fk => fk.ProjectId);
+
+            modelBuilder.Entity<ProjectStaffMember>()
+                .HasOne(psm => psm.StaffMember)
+                .WithMany(sm => sm.ProjectStaffMembers)
+                .HasForeignKey(fk => fk.StaffMemberId);
+
+
             base.OnModelCreating(modelBuilder);
         }
     }
